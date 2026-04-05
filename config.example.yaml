@@ -1,0 +1,36 @@
+# Agent Kanban Configuration
+# Copy this file to config.yaml and customize.
+
+# Global CLI command (the agent tool you have installed and authenticated)
+# Options shown in the UI today: "claude", "codex", or any CLI that accepts a prompt argument
+# You can also switch this from the dropdown in the app header.
+# Note: Gemini support is currently a work in progress and temporarily hidden from the UI.
+cli: "claude"
+
+# Project workspace — agents will run inside this directory.
+# "." means wherever you launched the app from.
+workspace: "."
+
+# Define your agent columns.
+# Each agent becomes a kanban column between "Ideas" and "Ready for Review".
+agents:
+  - name: "Research"
+    system_prompt: "You are a research specialist. Provide thorough, well-structured findings."
+    on_complete: "move_to_review"   # move_to_review | stay | archive
+
+  - name: "Coder"
+    system_prompt: "You are a senior developer. Write clean, production-quality code."
+    on_complete: "move_to_review"
+
+  - name: "Reviewer"
+    system_prompt: "You review work for quality, correctness, and completeness."
+    on_complete: "move_to_review"
+
+  # Add more agents as needed (up to ~6 columns total fit the screen):
+  # - name: "Writer"
+  #   system_prompt: "You are a content writer."
+  #   cli: "claude"                    # optional: override global CLI
+  #   model: "claude-sonnet-4-6"       # optional: specific model
+  #   skills:                           # optional: paths to skill/prompt files
+  #     - "path/to/skill.md"
+  #   on_complete: "move_to_review"

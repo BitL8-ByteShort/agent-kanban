@@ -27,6 +27,8 @@ Agent Kanban is a drag-and-drop board for running agent-driven coding work throu
 
 Instead of burying prompts inside chats, terminals, and scattered notes, it gives you a visual control surface where you can stage prompts, send them to the right agent, review the results, and iterate cleanly.
 
+> Gemini support is still a work in progress and is temporarily hidden from the UI while the CLI integration stabilizes.
+
 ## Why Agent Kanban
 
 Modern coding with agents gets messy fast.
@@ -133,22 +135,25 @@ agents:
 | `cli` | No | Override the global CLI for this agent |
 | `model` | No | Specify a model |
 | `skills` | No | Paths to skill or prompt files to reference |
+| `execution_mode` | No | `oneshot` (default) or `session`; Gemini session mode lets you finish trust/auth in the built-in terminal |
 | `on_complete` | No | `move_to_review` (default), `stay`, or `archive` |
 
 ## Requirements
 
 - Node.js 18+
-- a CLI agent installed and authenticated, such as `claude`, `codex`, or `gemini`
+- a CLI agent installed and authenticated, such as `claude` or `codex`
 - a shell environment where your chosen CLI supports non-interactive execution
 
-### Gemini Headless Note
+### Gemini Auth Note
 
-Agent Kanban runs Gemini with `gemini -p` for one-shot execution. Browser OAuth alone is often not enough for that mode.
+For Gemini agents using `execution_mode: oneshot` (the default), Agent Kanban runs cards with `gemini -p`. That path can still require headless auth even if browser OAuth already works elsewhere.
 
-If Gemini cards fail immediately with an auth error, configure one of these before launching the app:
+If a Gemini one-shot card fails immediately with `Please set an Auth method`, configure one of these before launching the app:
 
 - `GEMINI_API_KEY`
 - Vertex AI or Google Cloud auth such as `GOOGLE_GENAI_USE_VERTEXAI` or `GOOGLE_GENAI_USE_GCA`
+
+If you want to complete Gemini trust/auth inside Agent Kanban instead, use `execution_mode: session` for that agent and finish the Gemini terminal flow before sending cards.
 
 ## Tech Stack
 
